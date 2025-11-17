@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDigestStore } from '../stores/useDigestStore';
 import { formatReadableDate } from '@shared/utils';
 
 export const Sidebar: React.FC = () => {
   const { digests, isLoading, error, loadDigests, setCurrentDigest } = useDigestStore();
+  const [isElectronReady, setIsElectronReady] = useState(false);
 
   useEffect(() => {
-    loadDigests();
+    if (window.electron) {
+      setIsElectronReady(true);
+      loadDigests();
+    }
   }, [loadDigests]);
 
   return (
@@ -88,8 +92,9 @@ export const Sidebar: React.FC = () => {
       {/* 底部操作 */}
       <div className="p-4 border-t border-gray-300 dark:border-gray-700">
         <button
-          onClick={() => window.electron.email.sync()}
-          className="w-full px-3 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded text-sm font-medium"
+          onClick={() => isElectronReady && window.electron.email.sync()}
+          className="w-full px-3 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded text-sm font-medium disabled:opacity-50"
+          disabled={!isElectronReady}
         >
           同步邮箱
         </button>

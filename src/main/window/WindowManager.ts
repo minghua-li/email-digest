@@ -1,5 +1,9 @@
 import { BrowserWindow, BrowserView, app } from 'electron';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export class WindowManager {
   private mainWindow: BrowserWindow | null = null;
@@ -10,6 +14,12 @@ export class WindowManager {
    * 创建主窗口
    */
   createMainWindow(): void {
+    // 在开发模式下，预加载脚本在项目根目录的 dist/preload 下
+    // 在生产模式下，在应用包内的 dist/preload 下
+    const preloadPath = app.isPackaged
+      ? path.join(app.getAppPath(), 'dist/preload/preload.js')
+      : path.join(__dirname, '../../../dist/preload/preload.js');
+
     this.mainWindow = new BrowserWindow({
       width: 1400,
       height: 900,
@@ -18,7 +28,7 @@ export class WindowManager {
       frame: false, // 无边框窗口，使用自定义标题栏
       backgroundColor: '#ffffff',
       webPreferences: {
-        preload: path.join(app.getAppPath(), 'dist/preload/preload.js'),
+        preload: preloadPath,
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,

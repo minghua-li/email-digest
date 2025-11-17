@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const TitleBar: React.FC = () => {
   const [url, setUrl] = useState('');
+  const [isElectronReady, setIsElectronReady] = useState(false);
+
+  useEffect(() => {
+    // 检查 electron API 是否可用
+    if (window.electron) {
+      setIsElectronReady(true);
+    } else {
+      console.warn('Electron API not available');
+    }
+  }, []);
 
   const handleNavigate = (e: React.FormEvent) => {
     e.preventDefault();
-    if (url) {
+    if (url && isElectronReady) {
       // 如果没有协议，默认添加https://
       const finalUrl = url.match(/^https?:\/\//) ? url : `https://${url}`;
       window.electron.browser.navigate(finalUrl);
@@ -13,6 +23,8 @@ export const TitleBar: React.FC = () => {
   };
 
   const handleCapture = async () => {
+    if (!isElectronReady) return;
+
     const result = await window.electron.capture.page();
     if (result.success) {
       console.log('Page captured successfully', result.data);
@@ -28,46 +40,52 @@ export const TitleBar: React.FC = () => {
       {/* 窗口控制按钮 */}
       <div className="flex items-center gap-2 mr-4">
         <button
-          onClick={() => window.electron.window.close()}
+          onClick={() => isElectronReady && window.electron.window.close()}
           className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-600"
           title="关闭"
+          disabled={!isElectronReady}
         />
         <button
-          onClick={() => window.electron.window.minimize()}
+          onClick={() => isElectronReady && window.electron.window.minimize()}
           className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-600"
           title="最小化"
+          disabled={!isElectronReady}
         />
         <button
-          onClick={() => window.electron.window.maximize()}
+          onClick={() => isElectronReady && window.electron.window.maximize()}
           className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-600"
           title="最大化"
+          disabled={!isElectronReady}
         />
       </div>
 
       {/* 浏览器导航按钮 */}
       <div className="flex items-center gap-1 mr-2">
         <button
-          onClick={() => window.electron.browser.goBack()}
-          className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-800 rounded"
+          onClick={() => isElectronReady && window.electron.browser.goBack()}
+          className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-800 rounded disabled:opacity-50"
           title="后退"
+          disabled={!isElectronReady}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
         <button
-          onClick={() => window.electron.browser.goForward()}
-          className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-800 rounded"
+          onClick={() => isElectronReady && window.electron.browser.goForward()}
+          className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-800 rounded disabled:opacity-50"
           title="前进"
+          disabled={!isElectronReady}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
         <button
-          onClick={() => window.electron.browser.reload()}
-          className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-800 rounded"
+          onClick={() => isElectronReady && window.electron.browser.reload()}
+          className="p-1.5 hover:bg-gray-200 dark:hover:bg-gray-800 rounded disabled:opacity-50"
           title="刷新"
+          disabled={!isElectronReady}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
