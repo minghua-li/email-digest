@@ -1,4 +1,4 @@
-import { BrowserWindow, BrowserView } from 'electron';
+import { BrowserWindow, BrowserView, app } from 'electron';
 import path from 'path';
 
 export class WindowManager {
@@ -18,7 +18,7 @@ export class WindowManager {
       frame: false, // 无边框窗口，使用自定义标题栏
       backgroundColor: '#ffffff',
       webPreferences: {
-        preload: path.join(__dirname, '../preload/index.js'),
+        preload: path.join(app.getAppPath(), 'dist/preload/preload.js'),
         nodeIntegration: false,
         contextIsolation: true,
         sandbox: false,
@@ -26,11 +26,11 @@ export class WindowManager {
     });
 
     // 开发环境加载开发服务器，生产环境加载构建文件
-    if (process.env.NODE_ENV === 'development') {
-      this.mainWindow.loadURL('http://localhost:5173');
+    if (process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL) {
+      this.mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL || 'http://localhost:5173');
       this.mainWindow.webContents.openDevTools();
     } else {
-      this.mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
+      this.mainWindow.loadFile(path.join(app.getAppPath(), 'dist/renderer/index.html'));
     }
 
     // 创建BrowserView用于显示网页内容

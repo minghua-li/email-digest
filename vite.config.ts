@@ -16,6 +16,14 @@ export default defineConfig({
           options.startup();
         },
         vite: {
+          resolve: {
+            alias: {
+              '@': path.resolve(__dirname, './src'),
+              '@main': path.resolve(__dirname, './src/main'),
+              '@renderer': path.resolve(__dirname, './src/renderer'),
+              '@shared': path.resolve(__dirname, './src/shared'),
+            },
+          },
           build: {
             outDir: 'dist/main',
             rollupOptions: {
@@ -31,6 +39,14 @@ export default defineConfig({
           options.reload();
         },
         vite: {
+          resolve: {
+            alias: {
+              '@': path.resolve(__dirname, './src'),
+              '@main': path.resolve(__dirname, './src/main'),
+              '@renderer': path.resolve(__dirname, './src/renderer'),
+              '@shared': path.resolve(__dirname, './src/shared'),
+            },
+          },
           build: {
             outDir: 'dist/preload',
           },
