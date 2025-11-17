@@ -1,0 +1,89 @@
+{
+  "name": "email-digest",
+  "version": "0.1.0",
+  "description": "开源的个人知识库浏览器 - 基于Electron的桌面应用",
+  "main": "dist/main/index.js",
+  "type": "module",
+  "author": "minghua-li",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minghua-li/email-digest.git"
+  },
+  "keywords": [
+    "electron",
+    "browser",
+    "email",
+    "digest",
+    "knowledge-base",
+    "llm",
+    "ai",
+    "readability"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && electron-builder",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{ts,tsx,json,css,md}\"",
+    "type-check": "tsc --noEmit",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:build": "vite build && electron-builder"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "electron-store": "^8.1.0",
+    "zustand": "^4.4.7",
+    "nodemailer": "^6.9.7",
+    "imap-simple": "^5.1.0",
+    "@mozilla/readability": "^0.5.0",
+    "axios": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@types/node": "^20.10.5",
+    "@types/nodemailer": "^6.4.14",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "vite-plugin-electron": "^0.28.2",
+    "vite-plugin-electron-renderer": "^0.14.5",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.emaildigest.app",
+    "productName": "Email Digest Browser",
+    "directories": {
+      "output": "release/${version}"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": ["dmg", "zip"]
+    },
+    "win": {
+      "target": ["nsis", "portable"]
+    },
+    "linux": {
+      "target": ["AppImage", "deb", "rpm"],
+      "category": "Office"
+    }
+  }
+}

@@ -1,2 +1,210 @@
-# email-digest
-一款基于Electron的开源桌面应用，集成了浏览器功能和智能内容管理。利用邮件系统作为数据存储介质，结合大语言模型(LLM)能力，为用户提供自动化的内容收集、整理和摘要服务。用户可以在应用内浏览网页、保存内容到邮箱，并通过AI生成智能摘要，实现个人知识库的积累与管理。
+# Email Digest Browser
+
+<div align="center">
+
+**开源的个人知识库浏览器**
+
+一款基于 Electron 的桌面应用，集成浏览器功能和智能内容管理。
+利用邮件系统作为数据存储介质，结合 LLM 能力，实现个人知识库的积累与管理。
+
+[![License](https://img.shields.io/github/license/minghua-li/email-digest)](./LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/minghua-li/email-digest?style=social)](https://github.com/minghua-li/email-digest)
+
+[English](./README.md) | [简体中文](./README_zh-CN.md)
+
+</div>
+
+## ✨ 核心特性
+
+- 🌐 **内置浏览器** - 基于 Chromium 的完整浏览体验
+- 📧 **邮箱存储** - 数据存储在你自己的邮箱，完全自主可控
+- 🤖 **AI 摘要** - 集成 LLM，自动生成内容摘要
+- 🔒 **隐私优先** - 所有敏感信息本地加密存储
+- 🆓 **完全免费** - 开源项目，无需付费订阅
+- 🖥️ **跨平台** - 支持 Windows、macOS 和 Linux
+
+## 🎯 产品定位
+
+**为什么选择 Email Digest Browser？**
+
+- ✅ **数据自主** - 不依赖第三方服务，数据存储在你的邮箱
+- ✅ **开源透明** - 完全开源，开发者友好
+- ✅ **零成本** - 利用现有邮件服务，无需额外服务器
+- ✅ **一体化** - 浏览、保存、管理、摘要，一个应用完成
+
+## 🚀 快速开始
+
+### 安装
+
+```bash
+# 下载最新版本
+# Coming soon...
+
+# 或从源码构建
+git clone git@github.com:minghua-li/email-digest.git
+cd email-digest
+npm install
+npm run dev
+```
+
+### 配置
+
+首次启动应用后：
+
+1. **设置 PIN 码** - 用于加密敏感信息
+2. **配置邮箱账户** - 输入邮箱地址和密码
+3. **配置 LLM 服务**（可选）- 选择提供商并输入 API Key
+4. 开始使用！
+
+## 📖 使用指南
+
+### 浏览和保存网页
+
+1. 在地址栏输入 URL 浏览网页
+2. 点击工具栏的保存按钮或按 `Cmd/Ctrl+S`
+3. 预览并调整要保存的内容
+4. 选择是否生成 AI 摘要
+5. 确认保存
+
+### 管理文摘
+
+- 在侧边栏浏览已保存的文摘
+- 使用搜索框快速查找
+- 点击条目查看详情
+- 可重新生成摘要、编辑标签、导出等
+
+### 同步数据
+
+- 点击工具栏的同步按钮
+- 应用会从邮箱读取新的文摘
+- 支持跨设备数据同步
+
+## 🏗️ 技术架构
+
+### 核心技术栈
+
+- **应用框架**: Electron
+- **前端**: React 18 + TypeScript + Vite
+- **样式**: Tailwind CSS
+- **状态管理**: Zustand / Redux Toolkit
+- **邮件协议**: nodemailer (SMTP) + node-imap (IMAP)
+- **内容提取**: @mozilla/readability
+- **打包**: electron-builder
+
+### 架构设计
+
+```
+┌───────────────────────────────────────┐
+│         Electron 主窗口                │
+│  ┌─────────────────────────────────┐  │
+│  │  地址栏 | 保存 | 同步 | 设置     │  │
+│  ├──────────┬──────────────────────┤  │
+│  │  侧边栏  │   BrowserView        │  │
+│  │          │   (网页浏览)          │  │
+│  │  文摘列表│                      │  │
+│  └──────────┴──────────────────────┘  │
+└───────────────────────────────────────┘
+         ↕              ↕
+   ┌─────────┐    ┌─────────┐
+   │主进程    │    │渲染进程  │
+   │SMTP/IMAP│    │React UI │
+   └─────────┘    └─────────┘
+```
+
+## 📂 项目结构
+
+```
+email-digest/
+├── src/
+│   ├── main/           # 主进程
+│   │   ├── smtp/       # SMTP 客户端
+│   │   ├── imap/       # IMAP 客户端
+│   │   ├── storage/    # 文件存储
+│   │   └── llm/        # LLM 集成
+│   ├── renderer/       # 渲染进程
+│   │   ├── components/ # React 组件
+│   │   ├── pages/      # 页面
+│   │   └── stores/     # 状态管理
+│   └── shared/         # 共享代码
+├── docs/               # 文档
+├── tests/              # 测试
+└── scripts/            # 构建脚本
+```
+
+## 🛣️ 开发路线图
+
+### MVP (Phase 1) - 预计 6-8 周
+
+- [x] 需求文档完成
+- [ ] 基础框架搭建
+- [ ] SMTP/IMAP 功能实现
+- [ ] 浏览器 UI 和内容提取
+- [ ] 侧边栏管理界面
+- [ ] LLM 集成
+- [ ] 跨平台打包
+
+### Phase 2 - 预计 4-6 周
+
+- [ ] 多标签页支持
+- [ ] 多 LLM 提供商
+- [ ] 高级搜索和筛选
+- [ ] 智能标签系统
+- [ ] 数据导出功能
+- [ ] 性能优化
+
+### Phase 3 - 未来规划
+
+- [ ] 浏览器插件版本
+- [ ] 移动端伴侣应用
+- [ ] 团队协作功能
+- [ ] 知识图谱可视化
+
+## 🤝 贡献指南
+
+欢迎贡献！请查看 [贡献指南](./CONTRIBUTING.md)（即将推出）
+
+### 开发环境设置
+
+```bash
+# 克隆仓库
+git clone git@github.com:minghua-li/email-digest.git
+cd email-digest
+
+# 安装依赖
+npm install
+
+# 开发模式
+npm run dev
+
+# 构建
+npm run build
+
+# 运行测试
+npm test
+```
+
+## 📄 许可证
+
+本项目采用 [MIT License](./LICENSE)
+
+## 🙏 致谢
+
+- [Electron](https://www.electronjs.org/)
+- [React](https://react.dev/)
+- [Mozilla Readability](https://github.com/mozilla/readability)
+- [nodemailer](https://nodemailer.com/)
+
+## 📮 联系方式
+
+- GitHub Issues: [提交问题](https://github.com/minghua-li/email-digest/issues)
+- Discussions: [参与讨论](https://github.com/minghua-li/email-digest/discussions)
+
+---
+
+<div align="center">
+
+如果这个项目对你有帮助，请给它一个 ⭐️
+
+**Made with ❤️ by open source community**
+
+</div>
