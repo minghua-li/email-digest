@@ -18,7 +18,7 @@ export class WindowManager {
     // 在生产模式下，在应用包内的 dist/preload 下
     const preloadPath = app.isPackaged
       ? path.join(app.getAppPath(), 'dist/preload/preload.js')
-      : path.join(__dirname, '../../../dist/preload/preload.js');
+      : path.join(process.cwd(), 'dist/preload/preload.js');
 
     this.mainWindow = new BrowserWindow({
       width: 1400,
