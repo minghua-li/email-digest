@@ -94,7 +94,7 @@ export function setupIPC(windowManager: WindowManager, storageManager: StorageMa
     };
   });
 
-  ipcMain.handle(IPCChannel.CONFIG_SET, async (_, config) => {
+  ipcMain.handle(IPCChannel.CONFIG_SET, async () => {
     // TODO: 实现配置保存到文件
     return { success: true };
   });
@@ -194,7 +194,7 @@ export function setupIPC(windowManager: WindowManager, storageManager: StorageMa
     return { success: true };
   });
 
-  ipcMain.handle(IPCChannel.EMAIL_SEND, async (_, data) => {
+  ipcMain.handle(IPCChannel.EMAIL_SEND, async () => {
     // TODO: 实现邮件发送
     return { success: true };
   });
@@ -208,7 +208,7 @@ export function setupIPC(windowManager: WindowManager, storageManager: StorageMa
   });
 
   // LLM
-  ipcMain.handle(IPCChannel.LLM_SUMMARIZE, async (_, content: string) => {
+  ipcMain.handle(IPCChannel.LLM_SUMMARIZE, async () => {
     // TODO: 实现LLM摘要
     return {
       success: false,

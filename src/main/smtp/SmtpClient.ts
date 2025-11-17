@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import type { Transporter } from 'nodemailer';
-import type { SmtpConfig, DigestData, ImageData } from '@shared/types';
+import type { SmtpConfig, DigestData } from '@shared/types';
 import {
   getEmailSubject,
   EMAIL_HTML_TYPE,

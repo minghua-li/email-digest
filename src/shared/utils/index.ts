@@ -4,7 +4,6 @@ import {
   ENCRYPTION_ALGORITHM,
   SALT_LENGTH,
   IV_LENGTH,
-  AUTH_TAG_LENGTH,
 } from '../constants';
 
 /**

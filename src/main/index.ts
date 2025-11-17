@@ -1,5 +1,4 @@
-import { app, BrowserWindow, BrowserView, ipcMain } from 'electron';
-import path from 'path';
+import { app, BrowserWindow } from 'electron';
 import { WindowManager } from './window/WindowManager';
 import { setupIPC } from './ipc';
 import { StorageManager } from './storage/StorageManager';

@@ -62,11 +62,13 @@ export class ImapClient {
       const parsed = parseEmailSubject(msg.subject);
       if (!parsed.id || !parsed.type) continue;
 
-      if (!digestMap.has(parsed.id)) {
-        digestMap.set(parsed.id, { images: new Map() });
+      const digestId = parsed.id;
+
+      if (!digestMap.has(digestId)) {
+        digestMap.set(digestId, { images: new Map() });
       }
 
-      const digestData = digestMap.get(parsed.id)!;
+      const digestData = digestMap.get(digestId)!;
 
       if (parsed.type === EMAIL_HTML_TYPE) {
         digestData.html = msg.html || msg.body;
@@ -98,7 +100,7 @@ export class ImapClient {
     // 重组完整的文摘数据
     const digests: DigestData[] = [];
 
-    for (const [id, data] of digestMap.entries()) {
+    for (const [, data] of digestMap.entries()) {
       if (data.json) {
         // 如果有图片数据，合并到JSON中
         if (data.images.size > 0) {
@@ -129,7 +131,7 @@ export class ImapClient {
     return new Promise((resolve, reject) => {
       if (!this.imap) return reject(new Error('IMAP not initialized'));
 
-      this.imap.openBox(this.config!.folder, false, (err, box) => {
+      this.imap.openBox(this.config!.folder, false, (err) => {
         if (err) return reject(err);
 
         // 搜索包含特定主题的邮件

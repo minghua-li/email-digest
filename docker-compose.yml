@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # MailHog - 用于开发调试的邮件服务器
+  # Web UI: http://localhost:8025
+  # SMTP: localhost:1025
+  # 无需认证，自动捕获所有发送的邮件
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: email-digest-mailhog
+    ports:
+      - "1025:1025"  # SMTP端口
+      - "8025:8025"  # Web UI端口
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /maildir
+    volumes:
+      - mailhog-data:/maildir
+    restart: unless-stopped
+
+  # Mailpit - 现代化的邮件服务器（推荐）
+  # Web UI: http://localhost:8026
+  # SMTP: localhost:1026
+  # 支持SMTP和IMAP协议
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: email-digest-mailpit
+    ports:
+      - "1026:1025"  # SMTP端口
+      - "8026:8025"  # Web UI端口
+      - "1143:1143"  # IMAP端口
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    volumes:
+      - mailpit-data:/data
+    restart: unless-stopped
+
+volumes:
+  mailhog-data:
+    name: email-digest-mailhog-data
+  mailpit-data:
+    name: email-digest-mailpit-data

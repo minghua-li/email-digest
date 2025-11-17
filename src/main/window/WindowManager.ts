@@ -1,4 +1,4 @@
-import { BrowserWindow, BrowserView, app } from 'electron';
+import { BrowserWindow, BrowserView } from 'electron';
 import path from 'path';
 
 export class WindowManager {
